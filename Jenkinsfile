@@ -1,15 +1,7 @@
-pipeline {
-    agent {
-        docker.withServer('tcp://docker:2376', 'docker-credentials') {
-            image 'maven:3-alpine' 
-            args '-v /root/.m2:/root/.m2' 
-        }
-    }
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'mvn -B -DskipTests clean package' 
-            }
+node {
+    docker.withServer('tcp://docker:2376', 'docker-credentials') {
+        docker.image('maven:3-alpine').withRun('-v /root/.m2:/root/.m2') {
+
         }
     }
 }
